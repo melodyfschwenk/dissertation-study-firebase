@@ -811,18 +811,10 @@
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
 
   <!-- Firebase Initialization -->
+  <script src="firebase-config.js"></script>
   <script>
     // Important: storageBucket should be appspot.com, not firebasestorage.app
-    const firebaseConfig = {
-      apiKey: "AIzaSyCIwCPIWoCvIUFuq0yyZGvuE9cqEX_d6Js",
-      authDomain: "spatial-cognition-study-8c068.firebaseapp.com",
-      projectId: "spatial-cognition-study-8c068",
-      storageBucket: "spatial-cognition-study-8c068.appspot.com",
-      messagingSenderId: "794653517672",
-      appId: "1:794653517672:web:7a6cea1b86581b979118dd"
-    };
-
-    firebase.initializeApp(firebaseConfig);
+    firebase.initializeApp(window.firebaseConfig);
     window.db = firebase.firestore();
     window.storage = firebase.storage();
     console.log("Firebase initialized");

@@ -42,3 +42,7 @@ PORT=<optional port, defaults to 3000>
 ```
 
 Do not commit the `.env` file to version control.
+
+## Firebase configuration
+
+Create `public/firebase-config.js` by copying `public/firebase-config.example.js` and filling in your Firebase project details. This file is ignored by Git so your API key remains private.

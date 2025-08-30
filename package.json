@@ -1,0 +1,17 @@
+{
+  "name": "dissertation-study",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "esbuild src/main.js --bundle --outfile=main.js --platform=browser",
+    "start": "node server.js",
+    "lint": "eslint 'src/**/*.js' server.js"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.1",
+    "esbuild": "^0.21.5"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.1"
+  }
+}

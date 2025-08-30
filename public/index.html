@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Spatial Cognition & Sign Language Research Study</title>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    :root {
+      --primary: #2563eb;
+      --primary-light: #3b82f6;
+      --primary-dark: #1d4ed8;
+      --success: #059669;
+      --success-light: #10b981;
+      --warning: #d97706;
+      --warning-light: #f59e0b;
+      --info: #0891b2;
+      --info-light: #06b6d4;
+      --gray-50: #f9fafb;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-300: #d1d5db;
+      --gray-600: #4b5563;
+      --gray-700: #374151;
+      --gray-800: #1f2937;
+      --text-primary: #111827;
+      --text-secondary: #6b7280;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      background: var(--gray-100);
+      min-height: 100vh;
+      padding: 20px;
+      line-height: 1.6;
+      color: var(--text-primary);
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      overflow: hidden;
+    }
+    .header { background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary-dark) 100%); color: white; padding: 40px; text-align: center; }
+    .header h1 { font-size: 32px; margin-bottom: 10px; }
+    .header p { font-size: 18px; opacity: 0.95; }
+
+    .content { padding: 40px; }
+
+    /* Screens */
+    .screen { display: none; animation: fadeIn 0.3s ease-in; }
+    .screen.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* Cards / banners */
+    .card { background: var(--gray-50); border-radius: 12px; padding: 30px; margin: 20px 0; border: 2px solid var(--gray-200); transition: all 0.3s; }
+    .card:hover { border-color: var(--primary-light); box-shadow: 0 4px 12px rgba(37, 99, 235, 0.1); transform: translateY(-1px); }
+
+    .info-box {
+      border-radius: 12px;
+      padding: 20px;
+      margin: 20px 0;
+      border-left: 4px solid;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .info-box .icon {
+      font-size: 20px;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+    .info-box.time { background: #eff6ff; border-color: var(--info); color: #1e3a8a; }
+    .info-box.helpful { background: #f0fdf4; border-color: var(--success); color: #14532d; }
+    .info-box.friendly-tip { background: #fef3c7; border-color: var(--warning); color: #92400e; }
+    .info-box.important { background: #fef2f2; border-color: #ef4444; color: #991b1b; }
+
+    /* Completion policy callout */
+    .policy-callout {
+      background: #fff8e1;
+      border-left: 6px solid var(--warning);
+      padding: 16px 20px;
+      border-radius: 10px;
+      margin: 12px 0 20px;
+    }
+    .policy-callout h3 { margin-bottom: 8px; font-size: 16px; letter-spacing: .3px; }
+    .policy-callout ul { margin: 8px 0 0 20px; text-align: left; }
+
+    /* Forms */
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; font-weight: 600; margin-bottom: 8px; color: var(--text-primary); }
+    .form-group input { width: 100%; padding: 12px; border: 2px solid var(--gray-300); border-radius: 8px; font-size: 16px; transition: border-color 0.3s; }
+    .form-group input:focus { outline: none; border-color: var(--primary); }
+    .form-group input[type="checkbox"] {
+      width: 24px;
+      height: 24px;
+      padding: 0;
+      margin: 0;
+      flex-shrink: 0;
+      border: 2px solid var(--gray-300);
+      border-radius: 4px;
+      accent-color: var(--primary);
+    }
+    .form-group.checkbox label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0;
+    }
+    .form-group select { 
+  width: 100%; 
+  padding: 12px; 
+  border: 2px solid var(--gray-300); 
+  border-radius: 8px; 
+  font-size: 16px; 
+  transition: border-color 0.3s;
+  background: white;
+  cursor: pointer;
+}
+.form-group select:focus { 
+  outline: none; 
+  border-color: var(--primary); 
+}
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+    
+    /* Buttons */
+    .button {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 44px;
+      text-decoration: none;
+    }
+    .button:hover:not(:disabled) { background: var(--primary-dark); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(37,99,235,0.3); }
+    .button:disabled { opacity: 0.5; cursor: not-allowed; }
+    .button.secondary { background: var(--gray-100); color: var(--text-primary); border: 1px solid var(--gray-300); }
+    .button.secondary:hover:not(:disabled) { background: var(--gray-200); box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    .button.friendly { background: var(--info); }
+    .button.friendly:hover:not(:disabled) { background: var(--info-light); }
+    .button.success { background: var(--success); }
+    .button.success:hover:not(:disabled) { background: var(--success-light); }
+    .button.danger { background: #ef4444; }
+    .button.danger:hover:not(:disabled) { background: #dc2626; }
+    .button.optional { background: var(--info); }
+    .button.optional:hover:not(:disabled) { background: var(--info-light); }
+    .button.outline { background: white; color: var(--primary); border: 1px solid var(--primary); }
+    .button.outline:hover:not(:disabled) { background: var(--primary-light); color: white; }
+    .button.skip { background: var(--gray-200); color: var(--text-secondary); border: 1px solid var(--gray-300); font-size: 14px; padding: 6px 12px; min-height: 32px; }
+    .button.skip:hover:not(:disabled) { background: var(--gray-300); }
+    .button-group { display: flex; gap: 10px; margin: 20px 0; flex-wrap: wrap; justify-content: center; }
+
+    /* Session widget */
+    .session-widget { background: linear-gradient(135deg, #2563eb20, #1d4ed820); border-radius: 10px; padding: 20px; margin-bottom: 30px; display: none; }
+    .session-widget.active { display: block; }
+    .session-widget h3 { color: var(--primary); margin-bottom: 15px; font-size: 18px; }
+    .session-details { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
+    .session-detail { background: white; padding: 10px 15px; border-radius: 8px; border-left: 3px solid var(--primary); }
+    .session-detail label { font-size: 12px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; }
+    .session-detail .value { font-size: 16px; font-weight: bold; color: var(--text-primary); margin-top: 3px; }
+
+    /* Code display */
+    .code-display { background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary-dark) 100%); color: white; padding: 30px; border-radius: 10px; text-align: center; margin: 20px 0; }
+    .code-display .code { font-size: 36px; font-weight: bold; letter-spacing: 3px; margin: 15px 0; font-family: monospace; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
+
+    .status-indicator { display: block; margin-top: 6px; color: var(--text-secondary); }
+    .optional-info summary { cursor: pointer; font-weight: 600; }
+
+    /* Tasks list */
+    .task-list { list-style: none; margin: 20px 0; }
+    .task-item { padding: 20px; margin: 12px 0; background: white; border-radius: 10px; border-left: 6px solid var(--gray-300); display: flex; align-items: center; justify-content: space-between; transition: all 0.3s; }
+    .task-item:hover { box-shadow: 0 3px 10px rgba(0,0,0,0.1); }
+    .task-item.completed { border-left-color: var(--success); background: #f1f8f4; }
+    .task-item.current { border-left-color: var(--info); background: #e3f2fd; font-weight: bold; animation: pulse-blue 1.5s infinite; }
+    .task-item.locked { opacity: 0.5; }
+    @keyframes pulse-blue { 0%,100% { box-shadow: 0 0 0 0 rgba(33,150,243,0.4); } 50% { box-shadow: 0 0 10px 2px rgba(33,150,243,0.4); } }
+    .task-info { flex: 1; }
+    .task-name { font-size: 16px; color: var(--text-primary); margin-bottom: 5px; }
+    .task-description { font-size: 13px; color: var(--text-secondary); }
+    .task-badge { background: #eceff1; color: #444; border-radius: 20px; padding: 4px 10px; font-size: 12px; margin-left: 10px; }
+    .task-status { font-size: 24px; margin-left: 20px; }
+
+    /* Progress bar */
+    .progress-bar { background: var(--gray-200); height: 30px; border-radius: 15px; overflow: hidden; margin: 20px 0; position: relative; }
+    .progress-bar.sticky { position: sticky; top:0; z-index:100; }
+    .progress-fill { background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary-dark) 100%); height: 100%; transition: width 0.5s ease; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 14px; }
+    .step-indicator { text-align: center; font-size: 14px; color: var(--text-secondary); margin-top: 8px; }
+    .breadcrumbs { text-align:center; font-size:14px; color: var(--text-secondary); margin-top:4px; }
+
+    /* Video section */
+    .video-container { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin: 20px 0; }
+    .video-panel { text-align: center; }
+    .video-panel h3 { color: var(--text-primary); margin-bottom: 15px; }
+    #video-preview, #recorded-video { width: 100%; max-width: 500px; height: 375px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); background: #000; }
+    #video-preview { border: 2px solid var(--success); transform: scaleX(-1); }
+    #recorded-video { border: 2px solid var(--info); }
+    .recording-controls { margin-top: 20px; padding: 20px; background: var(--gray-50); border-radius: 10px; }
+    .recording-status { margin: 15px 0; font-size: 18px; font-weight: bold; }
+    .recording-status.ready { color: var(--text-secondary); }
+    .recording-status.recording { color: #ef4444; animation: pulse 1.5s infinite; }
+    .recording-status.recorded { color: var(--success); }
+    @keyframes pulse { 0%,100% {opacity:1} 50% {opacity:.5} }
+
+    /* Upload progress indicator */
+    #upload-progress { margin: 15px 0; padding: 15px; background: var(--gray-100); border-radius: 8px; display: none; }
+    .upload-progress-bar { background: var(--gray-200); height: 8px; border-radius: 4px; overflow: hidden; margin: 10px 0; }
+    #upload-progress-fill { background: var(--primary); height: 100%; width: 0%; transition: width 0.3s; }
+
+    /* Modals */
+    .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); animation: fadeIn 0.3s; }
+    .modal.active { display: flex; align-items: center; justify-content: center; }
+    .modal-content { background-color: white; padding: 40px; border-radius: 15px; width: 90%; max-width: 500px; text-align: center; animation: slideUp 0.3s; }
+    @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+    /* Footer */
+    .footer { background: var(--gray-50); padding: 30px; text-align: center; color: var(--text-secondary); }
+
+    /* FAB */
+    .fab { position: fixed; bottom: 30px; right: 30px; z-index: 1000; background: var(--warning); color: white; border: none; padding: 15px 25px; border-radius: 50px; font-size: 14px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.3); display: none; transition: all 0.3s; }
+    .fab.active { display: block; }
+    .fab:hover { transform: scale(1.05); }
+
+    /* Embed shells */
+    .embed-shell { background: #0b0b0b; border: 2px solid var(--gray-300); border-radius: 12px; overflow: hidden; margin-top: 16px; }
+    .fs-toolbar { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:10px 12px; background:#111827; color:#e5e7eb; font-size:14px; }
+    .fs-toolbar .actions { display:flex; gap:8px; }
+    .embed-frame { width: 100%; height: 75vh; border: none; display: block; background: #000; }
+    .embed-note { color: #6b7280; font-size: 12px; padding: 8px 12px; background: #0f172a; }
+    .fs-shell:fullscreen .embed-frame { height: calc(100vh - 52px); }
+    .fs-shell:-webkit-full-screen .embed-frame { height: calc(100vh - 52px); }
+
+    /* Distraction-free fallback */
+    html.df-mode, html.df-mode body { height:100%; }
+    html.df-mode body { overflow:hidden; position:fixed; left:0; right:0; }
+    html.df-mode .container { width:100vw; height:100vh; border-radius:0; box-shadow:none; }
+    html.df-mode .header, html.df-mode .footer, html.df-mode #task-instructions { display:none !important; }
+    html.df-mode .embed-frame { height: calc(100vh - 52px); }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      body { padding: 10px; }
+      .container { border-radius: 0; margin: 0; }
+      .header { padding: 20px; }
+      .header h1 { font-size: 24px; }
+      .header p { font-size: 16px; }
+      .content { padding: 20px; }
+      .card { padding: 20px; }
+      .modal-content { padding: 20px; }
+      .form-row, .video-container { grid-template-columns: 1fr; }
+      .session-details { grid-template-columns: 1fr; }
+      .button-group { flex-direction: column; }
+      .button { width: 100%; }
+      .embed-frame { height: 70vh; }
+    }
+  </style>
+
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Spatial Cognition & Sign Language Research Study</h1>
+      <p>Gallaudet University Research Project</p>
+    </div>
+
+    <div class="content">
+      <div id="live-status" role="status" aria-live="polite" class="sr-only"></div>
+      <div id="top-progress" class="progress-bar sticky"><div id="top-progress-fill" class="progress-fill" style="width:0%">0%</div></div>
+      <div id="step-indicator" class="step-indicator"></div>
+      <div id="breadcrumbs" class="breadcrumbs"></div>
+
+      <!-- Session Widget -->
+      <div class="session-widget" id="session-widget">
+        <h3>📊 Your Session</h3>
+        <div class="session-details">
+          <div class="session-detail">
+            <label>Resume Code</label>
+            <div class="value" id="widget-code">-</div>
+          </div>
+          <div class="session-detail">
+            <label>Progress</label>
+            <div class="value" id="widget-progress">0/7</div>
+          </div>
+          <div class="session-detail">
+            <label>Time Spent</label>
+            <div class="value" id="widget-time">0 min</div>
+          </div>
+          <div class="session-detail">
+            <label>Current Task</label>
+            <div class="value" id="widget-current">-</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Welcome -->
+      <div class="screen active" id="welcome-screen">
+  <h2 style="text-align: center; margin-bottom: 24px; font-size: 28px; color: var(--text-primary);">
+    Welcome! Let's Get Started
+  </h2>
+
+  <div class="info-box time">
+    <div class="icon">⏱️</div>
+    <div>
+      <h4 style="margin-bottom: 8px; font-weight: 600;">About 60-90 minutes total</h4>
+      <p style="margin: 0; color: inherit;">You can pause anytime and return later. Your progress saves automatically after each task.</p>
+    </div>
+  </div>
+
+  <div class="info-box helpful">
+    <div class="icon">💡</div>
+    <div>
+      <h4 style="margin-bottom: 8px; font-weight: 600;">How it works</h4>
+      <ul style="margin: 8px 0 0 0; padding-left: 16px; color: inherit;">
+        <li>Get your unique session code in case a glitch occurs</li>
+        <li>Complete tasks at your own pace</li>
+        <li>Share your code with support if something goes wrong</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="info-box friendly-tip">
+    <div class="icon">🤝</div>
+    <div>
+      <h4 style="margin-bottom: 8px; font-weight: 600;">Need help?</h4>
+      <p style="margin: 0; color: inherit;">
+        Having technical issues or need accommodations?
+        <strong>We're here to help you succeed!</strong>
+      </p>
+      <div style="margin-top: 12px;">
+        <button class="button secondary" onclick="openSupportEmail()" style="font-size: 14px; padding: 8px 16px;">
+          📧 Email Technical Support
+        </button>
+      </div>
+    </div>
+  </div>
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 32px;">
+    <div class="card">
+      <div style="text-align: center;">
+        <div style="font-size: 48px; margin-bottom: 16px;">🆕</div>
+        <h3 style="margin-bottom: 12px; font-size: 20px;">New Participant</h3>
+        <p style="color: var(--text-secondary); margin-bottom: 20px;">
+          Start fresh and get your unique session code
+        </p>
+        <button class="button" onclick="showScreen('new-participant')">
+          Get Started →
+        </button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div style="text-align: center;">
+        <div style="font-size: 48px; margin-bottom: 16px;">🔄</div>
+        <h3 style="margin-bottom: 12px; font-size: 20px;">Returning Participant</h3>
+        <p style="color: var(--text-secondary); margin-bottom: 20px;">
+          Continue where you left off with your code
+        </p>
+        <button class="button secondary" onclick="showScreen('returning-participant')">
+          Resume Session →
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+      <!-- New Participant -->
+      <div class="screen" id="new-participant">
+        <h2>New Participant Registration</h2>
+        <p style="color: var(--text-secondary); margin-bottom: 30px;">Create your unique session to track your progress</p>
+
+        <p style="margin-bottom: 20px;">Please confirm you have completed the consent form and enter the access code provided on Qualtrics.</p>
+
+        <div class="form-group">
+          <label for="consent-code">Consent Access Code</label>
+          <input type="text" id="consent-code" placeholder="e.g., ABC123" />
+        </div>
+
+        <div class="form-group checkbox">
+          <label>
+            <input type="checkbox" id="consent-confirm" />
+            I have completed the consent form
+          </label>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="first-initial">First Name Initial</label>
+            <input type="text" id="first-initial" maxlength="1" placeholder="J" />
+          </div>
+          <div class="form-group">
+            <label for="last-initial">Last Name Initial</label>
+            <input type="text" id="last-initial" maxlength="1" placeholder="D" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email (optional - for reminders if you pause)</label>
+          <input type="email" id="email" placeholder="your.email@example.com" />
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="hearing-status">Hearing Status</label>
+            <select id="hearing-status">
+              <option value="" selected disabled>Select</option>
+              <option value="deaf">Deaf</option>
+              <option value="hearing">Hearing</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="fluency">ASL Fluency</label>
+            <select id="fluency">
+              <option value="" selected disabled>Select</option>
+              <option value="fluent">Fluent</option>
+              <option value="non-fluent">Non-fluent</option>
+              <option value="non-signer">Non-signer</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="button-group">
+          <button class="button primary" id="create-session-btn" onclick="createNewSession()" disabled>Create Session</button>
+          <button class="button secondary" onclick="showScreen('welcome-screen')">Back</button>
+        </div>
+      </div>
+
+      <!-- Returning Participant -->
+      <div class="screen" id="returning-participant">
+        <h2>Resume Your Session</h2>
+        <p style="color: var(--text-secondary); margin-bottom: 30px;">Enter your 8-character code to continue</p>
+
+        <div class="form-group">
+          <label for="resume-code">Session Code</label>
+          <input type="text" id="resume-code" maxlength="8" placeholder="ABC12345" style="text-transform: uppercase; font-family: monospace; font-size: 24px; letter-spacing: 2px; text-align: center;" />
+        </div>
+
+        <div class="button-group">
+          <button class="button primary" onclick="resumeSession()">Resume Session</button>
+          <button class="button secondary" onclick="showScreen('welcome-screen')">Back</button>
+        </div>
+      </div>
+
+      <!-- Session Created -->
+      <div class="screen" id="session-created">
+        <h2>✅ Session Created Successfully!</h2>
+        <div class="code-display">
+          <p>Your Session Code:</p>
+          <div class="code" id="display-code">ABC12345</div>
+        <button class="button optional outline" onclick="copyCode(this)">📋 Copy Code</button>
+        <button class="button optional outline" onclick="copyRecoveryLink(this)">🔗 Copy Recovery Link</button>
+          <p style="font-size: 14px; margin-top: 15px;">Copy this code in case of a glitch so we can verify your session</p>
+        </div>
+
+        <div class="info-box important">
+          <strong>⚠️ Important: Save Your Code!</strong>
+          <ul style="margin: 10px 0 0 20px; text-align: left;">
+            <li>Write down or screenshot your code</li>
+            <li>Share this code with support if something goes wrong</li>
+            <li>Progress saves automatically after each task</li>
+          </ul>
+        </div>
+
+        <button class="button primary" onclick="proceedToEEGInfo()" style="display: block; margin: 20px auto;">
+          I've Saved My Code - Continue
+        </button>
+      </div>
+      <!-- Study Information and EEG Scheduling -->
+      <div class="screen" id="eeg-info">
+        <h2>About the Study</h2>
+        <p>This study looks at how language relates to spatial thinking, navigation, perspective taking, and mental rotation.</p>
+
+        <h3>How you can participate</h3>
+        <p><strong>Option 1, Online now, optional EEG later</strong><br/>
+        Start today with our online tasks. You can take breaks and come back as needed. If you are local and interested, we will email you to offer a 30 to 45 minute EEG lab visit when sessions resume in late September 2025.</p>
+        <p><strong>Option 2, Online only</strong><br/>
+        Start today with our online tasks. No in person visit is needed.</p>
+
+        <h3>Compensation and gifts</h3>
+        <ul>
+          <li>Rate, $25 per hour, prorated by the minute</li>
+          <li>Minimum, $25 guaranteed for the online session, even if you finish in less than 60 minutes</li>
+          <li>Online time, typically 60 to 90 minutes, online pay is capped at 90 minutes for budgeting</li>
+          <li>Examples, 45 min = $25, 60 min = $25, 75 min = $31.25, 90 min = $37.50</li>
+          <li>EEG visit, paid separately at $25 per hour for actual time in the lab</li>
+          <li>Thank you gifts, a small bison plush toy plus stickers are available only to participants who can pick them up in person at our lab. Gifts are optional to accept, while supplies last, one per participant, and not tied to your answers or performance. We are not able to mail or deliver gifts</li>
+        </ul>
+
+        <h3>Voluntary participation</h3>
+        <p>Participation is voluntary. You may skip any item or stop at any time with no penalty. You will be paid for the time you take, even if you stop early. Your payment and any thank you gift do not depend on how you perform.</p>
+
+        <h3>Questions</h3>
+        <p><a href="mailto:action.brain.lab@gallaudet.edu">action.brain.lab@gallaudet.edu</a></p>
+
+        <div class="card" style="margin-top: 32px; border: 2px solid var(--info); background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);">
+          <div style="text-align: center;">
+            <div style="font-size: 48px; margin-bottom: 16px;">🧠</div>
+            <h3 style="margin-bottom: 12px; font-size: 22px; color: var(--primary-dark);">
+              EEG Session
+            </h3>
+            <p style="color: var(--text-primary); margin-bottom: 16px; font-size: 16px;">
+              <strong>DC/MD/VA area participants:</strong> We'd love to include you in our EEG component! EEG uses small sensors on your scalp to measure brain activity during tasks. The session takes about 30-45 minutes.
+            </p>
+
+            <div class="info-box helpful" style="text-align: left; background: rgba(255,255,255,0.7); margin: 16px 0;">
+              <div class="icon">⭐</div>
+              <div>
+                <h4 style="margin-bottom: 8px; font-weight: 600;">Why EEG matters for this research</h4>
+                <ul style="margin: 8px 0 0 0; padding-left: 16px; color: inherit;">
+                  <li>Captures real-time brain responses to spatial tasks</li>
+                  <li>Helps us understand how deaf and hearing brains process space differently</li>
+                  <li><strong>Compensation:</strong> $25 for the online portion (you'll receive the full $25 even if it takes less than an hour) and $25 for the EEG session (about $50 total), with additional pay if the EEG session runs longer than expected.</li>
+                  <li>ASL or spoken English available</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="info-box friendly-tip" style="text-align: left; background: rgba(255,255,255,0.7); margin: 16px 0;">
+              <div class="icon">📅</div>
+              <div>
+                <h4 style="margin-bottom: 8px; font-weight: 600;">Scheduling update</h4>
+                <p style="margin: 0; color: inherit;">
+                  Scheduling for EEG will reopen in late September, but we will keep you updated.
+                </p>
+              </div>
+            </div>
+
+            <div class="button-group" style="margin-top: 20px;">
+              <button class="button success" onclick="scheduleEEG()" style="font-size: 16px; padding: 14px 28px;">
+                🗓️ Schedule My EEG Session
+              </button>
+              <button class="button secondary" onclick="expressEEGInterest()" style="font-size: 16px; padding: 14px 28px;">
+                📬 Can't Find a Time?
+              </button>
+              <button class="button friendly" onclick="markEEGScheduled()">
+                ✓ I Already Scheduled
+              </button>
+            </div>
+
+            <p style="margin-top: 12px; font-size: 14px; color: var(--text-secondary);">
+              Not in the DC area? No problem! You can still participate in the online portion.
+            </p>
+          </div>
+        </div>
+
+        <div class="button-group" style="margin-top: 20px;">
+          <button class="button primary" onclick="proceedToTasks()">Continue</button>
+        </div>
+      </div>
+
+      <!-- Progress -->
+      <div class="screen" id="progress-screen">
+        <h2>Your Study Progress</h2>
+        <div class="policy-callout" id="completion-policy" role="status">
+  <h3>Why every task matters</h3>
+  <p>Each task measures a different skill. Missing a task makes it harder to understand the full picture. If you can, please try every task. You can stop at any time.</p>
+</div>
+
+        <div class="info-box friendly-tip" id="skipped-notice" role="status" style="display:none; margin-top:12px;"></div>
+
+        <div class="info-box friendly-tip" id="tech-vs-intent" style="margin-top: 12px;">
+  <strong>🤝 Need help? We're here to help you succeed!</strong>
+  <ul style="margin: 8px 0 0 20px; text-align: left;">
+    <li>Try refreshing the page</li>
+    <li>Try a different browser (Chrome/Firefox recommended)</li>
+    <li><button class="button secondary" onclick="openSupportEmail()" style="font-size:14px; padding:6px 12px;">📧 Email Technical Support</button></li>
+  </ul>
+</div>
+        
+        <div class="progress-bar">
+          <div class="progress-fill" id="progress-fill" style="width: 0%"><span id="progress-text">0%</span></div>
+        </div>
+        <ul class="task-list" id="task-list"></ul>
+        <div class="button-group">
+          <button class="button primary" id="continue-task-btn" onclick="continueToCurrentTask()">Continue to Current Task</button>
+          <button class="button skip" id="skip-current-task-btn" onclick="skipCurrentTask()" style="display:none;">Unable to continue</button>
+          <button class="button secondary" onclick="saveAndExit()">Save & Exit</button>
+        </div>
+      </div>
+
+      <!-- Task Host -->
+      <div class="screen" id="task-screen">
+        <h2 id="task-title">Task Title</h2>
+        <div class="info-box friendly-tip" id="task-encouragement" role="status" style="margin-top:12px;">
+          Your effort matters. Please give this task your best try. There are no wrong answers. Partial completion is better than skipping.
+        </div>
+        <div id="task-instructions" style="margin: 20px 0;"></div>
+        <div id="task-content"></div>
+      </div>
+
+      <!-- Recording -->
+      <div class="screen" id="recording-screen">
+        <h2>Image Description Task</h2>
+
+        <div id="recording-content" style="display: none;">
+          <div class="info-box helpful">
+            <strong>Language for descriptions:</strong>
+            <p>If you know ASL, please use ASL. Otherwise, spoken English is fine.</p>
+          </div>
+
+          <div class="info-box friendly-tip">
+            <strong>Keep recordings short</strong>
+            <p>Videos over ~60 seconds (about 30MB) may fail to upload.</p>
+          </div>
+
+          <div style="text-align: center; margin: 20px 0;">
+            <span style="background: var(--info); color: white; padding: 10px 20px; border-radius: 25px; font-weight: bold;">
+              Image <span id="image-number">1</span> of 2
+            </span>
+          </div>
+
+          <div class="video-container">
+            <div class="video-panel">
+              <h3>Image to Describe</h3>
+              <img id="current-image" src="about:blank" alt="Image to describe" style="width: 100%; border-radius: 10px;" />
+            </div>
+
+            <div class="video-panel">
+              <h3>Your Video</h3>
+              <div id="uploader-container">
+  <!-- Firebase uploader builds its UI here -->
+  <div class="recording-status ready" id="recording-status">Ready to upload</div>
+  <div id="upload-progress" style="display:none;">
+    <div class="upload-progress-bar">
+      <div id="upload-progress-fill" style="width:0%"></div>
+    </div>
+    <div style="font-size:12px; color: var(--text-secondary);">Please keep this tab open while the video uploads.</div>
+  </div>
+</div>
+
+
+            </div>
+          </div>
+
+          <div class="info-box helpful">
+            <strong>What to describe (30–60 seconds):</strong>
+            <ul style="margin: 10px 0 0 20px; text-align: left;">
+              <li>Objects and people you see</li>
+              <li>Where things are located</li>
+              <li>What is happening in the image</li>
+              <li>Spatial relationships between objects</li>
+            </ul>
+          </div>
+
+          <div id="recording-error" class="info-box friendly-tip" style="display:none; margin-top: 15px;"></div>
+
+          <div class="card" id="video-upload-fallback" style="margin-top: 15px; display:none;"></div>
+
+          <button class="button skip" id="skip-recording-btn" style="display: block; margin: 20px auto;">Unable to complete</button>
+        </div>
+      </div>
+
+      <!-- Completion -->
+      <div class="screen" id="completion-screen">
+        <div style="text-align: center; padding: 50px;">
+          <h2 style="color: var(--success); font-size: 36px; margin-bottom: 20px;">🎉 Study Complete!</h2>
+          <p style="font-size: 20px; margin: 20px 0;">Thank you for participating in our research!</p>
+          <div class="code-display">
+            <p>Your session code was:</p>
+            <div class="code" id="final-code">ABC12345</div>
+          </div>
+          <p style="margin-top: 20px;">Total time: <strong id="total-time">0</strong> minutes</p>
+          <div class="button-group" style="margin-top:30px;">
+            <button class="button success" id="mark-complete-btn" onclick="markComplete()">I'm finished</button>
+          </div>
+          <p id="completion-message" style="display:none; margin-top:20px; color: var(--text-secondary);">
+            ✅ Your participation has been recorded. You may now close this window.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p>For technical support: <a class="support-email"></a></p>
+      <p style="margin-top: 10px; font-size: 14px;">Your progress is automatically saved after each task.</p>
+    </div>
+  </div>
+
+  <!-- FAB -->
+  <button class="fab" id="pause-fab" onclick="pauseStudy()">⏸️ Pause</button>
+
+  <!-- Pause Modal -->
+  <div class="modal" id="pause-modal">
+    <div class="modal-content">
+      <h3>Paused</h3>
+      <p>Your session is paused. Resume when you're ready.</p>
+      <div class="button-group">
+        <button class="button" onclick="resumeStudy()">Resume</button>
+        <button class="button secondary" onclick="saveAndExit()">Save & Exit</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Exit Modal -->
+  <div class="modal" id="exit-modal">
+    <div class="modal-content">
+      <h3>Session Saved!</h3>
+      <p>Your progress has been saved.</p>
+      <div class="code-display">
+        <div class="code" id="modal-code">ABC12345</div>
+        <button class="button optional outline" onclick="copyCode(this)">📋 Copy Code</button>
+        <button class="button optional outline" onclick="copyRecoveryLink(this)">🔗 Copy Recovery Link</button>
+      </div>
+      <p style="font-size: 14px; color: var(--text-secondary); margin-top: 20px;">Copy this code in case of a glitch so support can verify your progress.</p>
+      <button class="button" onclick="location.reload()">Exit Study</button>
+    </div>
+  </div>
+
+  <!-- EEG Modal -->
+  <div class="modal" id="eeg-modal">
+    <div class="modal-content">
+      <h3> Local EEG Add-On Information</h3>
+      <div class="info-box helpful" style="margin: 20px 0;">
+        <strong>Contact the Action Brain Lab:</strong>
+        <p style="margin-top: 10px;">
+          Email: <strong class="support-email"></strong>
+          <button class="button optional outline" onclick="copyEmail(this)" style="margin-left: 10px;">Copy Email</button>
+        </p>
+      </div>
+
+      <div style="text-align: left; background: var(--gray-50); padding: 20px; border-radius: 10px; margin: 20px 0;">
+        <strong>Include in your email:</strong>
+        <ul style="margin: 10px 0 0 20px;">
+          <li>Your session code: <strong id="eeg-session-code">TBD</strong></li>
+          <li>That you're interested in the local EEG add-on</li>
+          <li>Your preferred days/times for the visit</li>
+          <li>Communication preference (ASL or English)</li>
+        </ul>
+      </div>
+
+      <div class="button-group">
+        <button class="button" onclick="tryMailto()">Open Email Client</button>
+        <button class="button secondary" onclick="closeEEGModal()">Close</button>
+      </div>
+    </div>
+  </div>
+  
+<!-- Pre-Skip Modal -->
+<div class="modal" id="pre-skip-modal">
+  <div class="modal-content">
+    <h3>Before you skip, can we help?</h3>
+    <p>This task is important to the study.</p>
+    <div class="button-group">
+      <button class="button primary" id="pre-skip-try-btn">I will try it</button>
+      <button class="button secondary" id="pre-skip-help-btn">Get help by email</button>
+      <button class="button secondary" id="pre-skip-break-btn">Take a break</button>
+      <button class="button skip" id="pre-skip-skip-btn">I still need to skip</button>
+    </div>
+  </div>
+</div>
+
+<!-- Skip Modal -->
+<div class="modal" id="skip-modal">
+  <div class="modal-content">
+    <h3>Important: Skipping reduces research quality</h3>
+    <p>When a task is skipped, we lose data that cannot be replaced. If you can, please try the task first. There are no wrong answers.</p>
+    <ul style="text-align:left; margin: 12px 0 0 20px;">
+      <li>The task looks hard: That is OK. Try your best.</li>
+      <li>Tech problem: We can help. Email <a class="support-email"></a>.</li>
+      <li>Instructions are not clear: We can explain. Email <a class="support-email"></a>.</li>
+      <li>Feeling frustrated: Take a short break, then come back.</li>
+    </ul>
+    <div class="button-group" style="margin-top: 16px;">
+      <button class="button primary" id="skip-help-btn">Get help</button>
+      <button class="button secondary" id="skip-try-btn">Try it now</button>
+      <button class="button secondary" id="skip-break-btn">Take a break</button>
+      <button class="button skip" id="skip-confirm-btn">Unable to complete</button>
+    </div>
+  </div>
+</div>
+
+  <!-- === MS-RECORDER-HTML START === -->
+  <!-- Stray recorder hidden but retained for future use -->
+  <section id="recorder" class="recorder" hidden>
+    <h2>Recording task</h2>
+
+    <fieldset>
+      <legend>Mode</legend>
+      <label><input type="radio" name="rec-mode" value="video" checked> Video + audio</label>
+      <label><input type="radio" name="rec-mode" value="audio"> Audio only</label>
+    </fieldset>
+
+    <div class="rec-controls">
+      <button id="rec-start" type="button">Start recording</button>
+      <button id="rec-stop" type="button" disabled>Stop</button>
+      <button id="rec-upload" type="button" disabled>Upload</button>
+    </div>
+
+    <p id="rec-status" aria-live="polite">Idle</p>
+
+    <!-- === MS-LIVE-HTML START === -->
+    <video id="rec-preview-video" autoplay muted playsinline controls style="max-width:480px; display:none;"></video>
+    <!-- === MS-LIVE-HTML END === -->
+    <audio id="rec-preview-audio" controls style="width:480px; display:none;"></audio>
+
+    <progress id="rec-progress" value="0" max="100" style="width:480px; display:none;"></progress>
+  </section>
+  <!-- === MS-RECORDER-HTML END === -->
+
+  <!-- Firebase Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
+
+  <!-- Firebase Initialization -->
+  <script>
+    // Important: storageBucket should be appspot.com, not firebasestorage.app
+    const firebaseConfig = {
+      apiKey: "AIzaSyCIwCPIWoCvIUFuq0yyZGvuE9cqEX_d6Js",
+      authDomain: "spatial-cognition-study-8c068.firebaseapp.com",
+      projectId: "spatial-cognition-study-8c068",
+      storageBucket: "spatial-cognition-study-8c068.appspot.com",
+      messagingSenderId: "794653517672",
+      appId: "1:794653517672:web:7a6cea1b86581b979118dd"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    window.db = firebase.firestore();
+    window.storage = firebase.storage();
+    console.log("Firebase initialized");
+  </script>
+
+  <!-- Firestore event logging shim: replaces sendToSheets with Firestore logging -->
+  <script>
+    // Write events into Firestore
+ async function sendToFirebase(payload) {
+    if (!payload || !payload.sessionCode || !window.db) return;
+    const code = payload.sessionCode;
+
+    // Canonical session doc
+    await window.db.collection('sessions').doc(code).set({
+      sessionCode: code,
+      lastActivity: new Date().toISOString(),
+      lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+    }, { merge: true });
+
+    // Append event
+    await window.db.collection('sessions').doc(code).collection('events').add({
+      ...payload,
+      _ts: firebase.firestore.FieldValue.serverTimestamp()
+    });
+  }
+
+  // Make sure the global alias exists (main.js will call sendToSheets)
+  window.sendToSheets = async function(payload) {
+    try { await sendToFirebase(payload); } catch (e) { console.warn('Event log failed', e); }
+  };
+
+    // Back-compat alias so the rest of your app doesn't need edits
+    async function sendToSheets(payload) {
+      try { await sendToFirebase(payload); } catch (e) { console.warn('Event log failed', e); }
+    }
+  </script>
+
+  <!-- Your app logic that defines showScreen, updateTaskList, updateProgressBar, tasks, etc -->
+  <script src="main.js"></script>
+
+<script>
+/* ============================================================
+   FIREBASE STORAGE VIDEO UPLOADER
+   Drop-in replacement for the Uploadcare widget in recording-screen.
+   - Uses window.storage (Firebase Storage compat) & window.db (Firestore compat)
+   - Integrates with your existing main.js `showRecordingTask()` flow by
+     overriding `setupUploadcareUploader(...)` (same signature).
+   - Honors the 50MB limit and updates #recording-status & progress UI.
+   ============================================================ */
+(() => {
+  const MAX_BYTES = 50 * 1024 * 1024; // 50MB cap (matches your UI warning)
+
+  // Helpers to touch existing UI bits you already have styled
+  const $ = (sel) => document.querySelector(sel);
+  const statusEl = () => $("#recording-status");
+  const containerEl = () => $("#uploader-container");
+  const progressBox = () => $("#upload-progress");          // already in your CSS/HTML
+  const progressFill = () => $("#upload-progress-fill");    // already in your CSS/HTML
+  const currentImgEl = () => $("#current-image");
+  const imgNumberEl = () => $("#image-number");
+
+  function setStatus(text, klass = "ready") {
+    const el = statusEl();
+    if (!el) return;
+    el.textContent = text;
+    el.className = `recording-status ${klass}`;
+  }
+
+  function showProgress(pct) {
+    const box = progressBox();
+    const fill = progressFill();
+    if (!box || !fill) return;
+    box.style.display = "block";
+    fill.style.width = `${Math.max(0, Math.min(100, pct))}%`;
+  }
+
+  function hideProgress() {
+    const box = progressBox();
+    const fill = progressFill();
+    if (!box || !fill) return;
+    box.style.display = "none";
+    fill.style.width = "0%";
+  }
+
+  function fileExtFromType(type, fallbackName = "") {
+    // Try MIME first (e.g., video/mp4 -> .mp4)
+    if (type && type.includes("/")) {
+      const sub = type.split("/")[1] || "";
+      if (sub) {
+        if (sub.includes("mp4")) return ".mp4";
+        if (sub.includes("webm")) return ".webm";
+        if (sub.includes("quicktime")) return ".mov";
+        if (sub.includes("x-m4a") || sub.includes("mp4a")) return ".m4a";
+      }
+    }
+    // Try filename
+    if (fallbackName && fallbackName.includes(".")) {
+      return "." + fallbackName.split(".").pop();
+    }
+    return ".webm"; // safe default
+  }
+
+  function timestamp() {
+    return new Date().toISOString().replace(/[:.]/g, "-");
+  }
+
+  async function uploadVideoToFirebase(file, sessionCode, imageNumber) {
+    if (!window.storage || !window.db) {
+      throw new Error("Firebase not initialized (storage/db missing)");
+    }
+    if (!sessionCode || sessionCode.length !== 8) {
+      throw new Error("Invalid session code");
+    }
+    if (!file) {
+      throw new Error("No file selected");
+    }
+    if (file.size > MAX_BYTES) {
+      throw new Error(`File is ${Math.round(file.size / 1024 / 1024)}MB (limit 50MB)`);
+    }
+
+    const ext = fileExtFromType(file.type, file.name);
+    const path = `videos/${sessionCode}/image${imageNumber}_${timestamp()}${ext}`;
+    const ref = window.storage.ref().child(path);
+
+    return new Promise((resolve, reject) => {
+      const task = ref.put(file, {
+        contentType: file.type || "application/octet-stream",
+        customMetadata: {
+          sessionCode: String(sessionCode),
+          imageNumber: String(imageNumber)
+        }
+      });
+
+      task.on(
+        "state_changed",
+        (snap) => {
+          const pct = snap.totalBytes ? Math.round((snap.bytesTransferred / snap.totalBytes) * 100) : 0;
+          showProgress(pct);
+          setStatus(`Uploading... ${pct}%`, "recording");
+        },
+        (err) => {
+          hideProgress();
+          reject(err);
+        },
+        async () => {
+          hideProgress();
+          try {
+            const url = await task.snapshot.ref.getDownloadURL();
+            // Merge minimal metadata into the session doc
+            await window.db
+              .collection("sessions")
+              .doc(sessionCode)
+              .set(
+                {
+                  videos: firebase.firestore.FieldValue.arrayUnion({
+                    imageNumber,
+                    url,
+                    storagePath: path,
+                    size: file.size,
+                    contentType: file.type || null,
+                    uploadedAt: new Date().toISOString()
+                  }),
+                  lastSaved: new Date().toISOString()
+                },
+                { merge: true }
+              );
+            resolve({ url, path });
+          } catch (e) {
+            reject(e);
+          }
+        }
+      );
+    });
+  }
+
+  function buildUploaderUI() {
+    const root = containerEl();
+    if (!root) return null;
+
+    // Hide Uploadcare elements if they exist in the DOM
+    root.querySelectorAll("uc-config, uc-upload-ctx-provider, uc-file-uploader-regular").forEach((n) => {
+      n.style.display = "none";
+    });
+
+    // If we already built our UI once, reuse it
+    let shell = root.querySelector(".fb-uploader-shell");
+    if (!shell) {
+      shell = document.createElement("div");
+      shell.className = "fb-uploader-shell";
+      shell.innerHTML = `
+        <div style="text-align:left; margin-top:8px;">
+          <div class="form-group">
+            <label for="fb-video-file">Choose or capture a short video (≤ 50MB)</label>
+            <input id="fb-video-file" type="file" accept="video/*" capture="user" />
+            <span class="status-indicator">You can use your camera or pick a saved file.</span>
+          </div>
+          <video id="fb-preview" playsinline controls style="width:100%; max-width:500px; border-radius:10px; display:none;"></video>
+          <div class="button-group" style="margin-top:10px;">
+            <button id="fb-upload-btn" class="button" disabled>Upload to Study</button>
+            <button id="fb-clear-btn" class="button secondary" disabled>Clear</button>
+          </div>
+        </div>
+      `;
+      root.appendChild(shell);
+    }
+
+    const fileInput = shell.querySelector("#fb-video-file");
+    const uploadBtn = shell.querySelector("#fb-upload-btn");
+    const clearBtn  = shell.querySelector("#fb-clear-btn");
+    const preview   = shell.querySelector("#fb-preview");
+    return { fileInput, uploadBtn, clearBtn, preview };
+  }
+
+  // This overrides your existing main.js hook (same signature)
+  // main.js calls setupUploadcareUploader(state, sendToSheets, completeTask) during showRecordingTask()
+  window.setupUploadcareUploader = function(state, sendToSheets, completeTask) {
+    const ui = buildUploaderUI();
+    if (!ui) {
+      console.warn("Uploader container not found; cannot attach Firebase uploader.");
+      return;
+    }
+
+    // Reset UI state
+    setStatus("Ready to upload", "ready");
+    hideProgress();
+
+    let selectedFile = null;
+
+    ui.fileInput.onchange = () => {
+      const f = ui.fileInput.files && ui.fileInput.files[0];
+      selectedFile = f || null;
+
+      if (!selectedFile) {
+        ui.preview.style.display = "none";
+        ui.uploadBtn.disabled = true;
+        ui.clearBtn.disabled = true;
+        setStatus("Ready to upload", "ready");
+        return;
+      }
+
+      if (selectedFile.size > MAX_BYTES) {
+        setStatus(
+          `File is ${Math.round(selectedFile.size / 1024 / 1024)}MB — please choose a shorter clip (≤ 50MB).`,
+          "recording"
+        );
+        ui.uploadBtn.disabled = true;
+        ui.clearBtn.disabled = false;
+        ui.preview.style.display = "none";
+        return;
+      }
+
+      // Preview
+      try {
+        ui.preview.src = URL.createObjectURL(selectedFile);
+        ui.preview.style.display = "block";
+      } catch (_) {
+        ui.preview.style.display = "none";
+      }
+      ui.uploadBtn.disabled = false;
+      ui.clearBtn.disabled = false;
+      setStatus("File ready. Click “Upload to Study”.", "ready");
+    };
+
+    ui.clearBtn.onclick = () => {
+      ui.fileInput.value = "";
+      selectedFile = null;
+      ui.preview.src = "";
+      ui.preview.style.display = "none";
+      ui.uploadBtn.disabled = true;
+      ui.clearBtn.disabled = true;
+      hideProgress();
+      setStatus("Ready to upload", "ready");
+    };
+
+    ui.uploadBtn.onclick = async () => {
+      try {
+        if (!state || !state.sessionCode || state.sessionCode.length !== 8) {
+          alert("Session code missing. Please create or resume a session first.");
+          return;
+        }
+        if (!selectedFile) {
+          alert("Please choose a video first.");
+          return;
+        }
+
+        ui.uploadBtn.disabled = true;
+        ui.clearBtn.disabled = true;
+        setStatus("Starting upload…", "recording");
+        showProgress(1);
+
+        const imageNumber = (state.recording?.currentImage ?? 0) + 1;
+        const { url } = await uploadVideoToFirebase(selectedFile, state.sessionCode, imageNumber);
+
+        // Log to your Google Apps Script endpoint (keeps analytics parity with Uploadcare)
+        if (typeof sendToSheets === "function") {
+          sendToSheets({
+            action: "image_recorded_and_uploaded",
+            sessionCode: state.sessionCode,
+            imageNumber,
+            fileUrl: url,
+            filename: selectedFile.name || "",
+            uploadMethod: "firebase_storage",
+            recordingType: "video",
+            mimeType: selectedFile.type || ""
+          });
+        }
+
+        setStatus("✅ Upload complete!", "recorded");
+        hideProgress();
+
+        // Advance to next image or complete task, just like the old flow
+        setTimeout(() => {
+          try {
+            if (state.recording.currentImage === 0) {
+              state.recording.currentImage = 1;
+              // Update the visual "Image X of 2"
+              if (imgNumberEl()) imgNumberEl().textContent = "2";
+              if (currentImgEl()) {
+                const nextSrc = (typeof CONFIG !== "undefined" && CONFIG.IMAGE_2) ? CONFIG.IMAGE_2 : currentImgEl().src;
+                currentImgEl().src = nextSrc;
+              }
+              // Reset input so they can select the second clip
+              ui.fileInput.value = "";
+              selectedFile = null;
+              ui.preview.src = "";
+              ui.preview.style.display = "none";
+              ui.uploadBtn.disabled = true;
+              ui.clearBtn.disabled = true;
+              setStatus("Ready to upload", "ready");
+            } else {
+              if (typeof completeTask === "function") completeTask("ID");
+            }
+          } catch (e) {
+            console.error(e);
+          }
+        }, 600);
+
+      } catch (err) {
+        console.error("Upload failed:", err);
+        setStatus(`Upload error: ${err && err.message ? err.message : String(err)}`, "recording");
+        ui.uploadBtn.disabled = false;
+        ui.clearBtn.disabled = false;
+        hideProgress();
+        alert("Upload failed. Please try again, or email action.brain.lab@gallaudet.edu if the problem continues.");
+      }
+    };
+  };
+
+  // Also update the first/second image indicator if main.js called updateRecordingImage before us.
+  // (No-op if the elements already show the right state.)
+  document.addEventListener("DOMContentLoaded", () => {
+    const n = imgNumberEl();
+    const img = currentImgEl();
+    if (n && img && typeof CONFIG !== "undefined") {
+      // if something odd loaded, normalize to image 1 on initial render
+      if (n.textContent.trim() !== "1") n.textContent = "1";
+      if (!img.src || img.src.startsWith("about:blank")) img.src = CONFIG.IMAGE_1;
+    }
+  });
+})();
+</script>

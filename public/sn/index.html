@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spatial Navigation Task - Sign Language Research</title>
+
+       <script>
+        // Check if we're embedded
+        if (window !== window.top) {
+            // Check if parent is from your study domain
+            try {
+                const parentUrl = document.referrer;
+                if (parentUrl.includes('melodyfschwenk.github.io')) {
+                    // We're embedded in the main study, skip to task
+                    window.location.replace('webversion.html');
+                }
+            } catch(e) {
+                // Cross-origin, assume it's embedded and redirect
+                window.location.replace('webversion.html');
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .container {
+            text-align: center;
+            background: white;
+            padding: 50px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 600px;
+            margin: 20px;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 32px;
+        }
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 18px;
+        }
+        .start-button {
+            display: inline-block;
+            padding: 18px 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 20px;
+            font-weight: bold;
+            margin: 30px 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        .start-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(102, 126, 234, 0.5);
+        }
+        .info-box {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 30px 0;
+            text-align: left;
+        }
+        .info-box h3 {
+            color: #667eea;
+            margin-top: 0;
+        }
+        .info-item {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            color: #555;
+        }
+        .info-item strong {
+            min-width: 120px;
+            color: #333;
+        }
+        .requirements {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #ffc107;
+            margin: 20px 0;
+            text-align: left;
+        }
+        .requirements h4 {
+            margin-top: 0;
+            color: #856404;
+        }
+        .requirements ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        .footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+            color: #666;
+            font-size: 14px;
+        }
+        .icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            fill: #667eea;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Spatial Navigation Task</h1>
+        <p class="subtitle">Sign Language & Spatial Cognition Research</p>
+        
+        <div class="info-box">
+            <h3>Study Information</h3>
+            <div class="info-item">
+                <strong>Duration:</strong> Approximately 20 minutes
+            </div>
+            <div class="info-item">
+                <strong>Trials:</strong> 135 trials across 9 blocks
+            </div>
+            <div class="info-item">
+                <strong>Task Types:</strong> Player view & Map view navigation
+            </div>
+            <div class="info-item">
+                <strong>Practice:</strong> 4 practice trials included
+            </div>
+        </div>
+        
+        <div class="requirements">
+            <h4>⚠️ Requirements</h4>
+            <ul>
+                <li>Computer with keyboard (arrow keys required)</li>
+                <li>Stable internet connection</li>
+                <li>Quiet environment without distractions</li>
+                <li>Chrome or Firefox browser recommended</li>
+            </ul>
+        </div>
+        
+        <a href="webversion.html" class="start-button">Begin Experiment</a>
+        
+          <div class="info-box">
+              <h3>What You'll Do</h3>
+              <p>Navigate through simple mazes using two different strategies:</p>
+              <ul style="text-align: left; color: #555;">
+                  <li><strong>Player View:</strong> Navigate as if you are the player in the maze</li>
+                  <li><strong>Map View:</strong> Navigate using compass directions</li>
+              </ul>
+              <p style="margin-top: 15px;">Your responses help us understand how sign language experience affects spatial thinking.</p>
+          </div>
+
+        <div class="info-box">
+            <h3>What You Receive</h3>
+            <ul style="text-align: left; color: #555;">
+                <li>$25 for the session (full amount even if you finish in under an hour)</li>
+                <li>A small bison plush toy as a thank you for completing all study tasks</li>
+                <li>Stickers</li>
+            </ul>
+            <p style="margin-top: 15px;">
+                Participation is voluntary. You can stop at any time, and you will be paid for the time you take.
+                Gifts are optional to accept, and are while supplies last.
+            </p>
+        </div>
+
+          <div class="footer">
+            <p>For technical support or questions, contact the research team at action.brain.lab@gallaudet.edu.</p>
+            <p style="margin-top: 10px; font-size: 12px;">
+                Your data is automatically saved and kept confidential.<br>
+                Participant IDs are anonymized for privacy.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,28 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Study sessions keyed by 8-char code (e.g., AB12CD34)
+    match /sessions/{code} {
+      // Allow reading a single session by its code (needed for resume flow)
+      allow get: if true;
+      // Prevent listing all sessions
+      allow list: if false;
+
+      // Allow creates when the doc's sessionCode matches the path
+      allow create: if request.resource.data.sessionCode == code;
+
+      // Allow updates when the *existing* doc's sessionCode matches the path
+      // (so you can do merge updates without resending sessionCode)
+      allow update: if resource.data.sessionCode == code;
+
+      // No deletes from client
+      allow delete: if false;
+    }
+
+    // Everything else locked down
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
